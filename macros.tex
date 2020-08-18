@@ -1,0 +1,279 @@
+%% GRAMMAR
+\newcommand{\nt}[1]{\ensuremath{\mathit{#1}}} % nonterminals
+\newcommand{\tm}[1]{\ensuremath{\mathtt{#1}}} % terminals
+
+%% Prettifying
+\newcommand{\prettyreserved}[1]{\ensuremath{\textcolor{black}{{{\texttt{{#1}}}}}}}
+
+%% Misc
+\newcommand{\sep}{~\mid~}
+\newcommand{\divs}{~\texttt{/}~}
+\newcommand{\wild}{\ensuremath{\_}}
+\newcommand{\defeq}{\triangleq}
+\newcommand{\lam}[2]{\lambda #1\, . \, #2}
+\newcommand{\tlist}[1]{\tm{list}~(#1)}
+\newcommand{\ifc}[3]{\tm{if}~#1~\tm{then}~#2~\tm{else}~#3}
+\newcommand{\match}[1]{\tm{match}\ #1\ \tm{with}}
+%% \newcommand{\matchtwo}[5]{\mathtt{match~#1~with~\mid #2 \Rightarrow #3~\mid #4 \Rightarrow #5}}
+\newcommand{\matchbranch}[2]{\mid #1\Rightarrow #2}
+\newcommand{\func}[2]{\mathtt{\lambda}\,#1\, .\, #2}
+%% \newcommand{\matchtwo}[5]{\mathtt{match~#1~with~\mid #2 \Rightarrow #3~\mid #4 \Rightarrow #5}}
+\newcommand{\mapm}[2]{\ensuremath{\tm{mapm}~#1~#2}}
+% \newcommand{\pmap}{\hookrightarrow}
+% \newcommand{\optget}[2]{\mathtt{let}~#1 \hookleftarrow #2~\mathtt{in}}
+\newcommand{\optget}[2]{\ensuremath{#1 \hookleftarrow #2~\prettyreserved{in}}}
+\newcommand{\tryget}[3]{\ensuremath{\prettyreserved{try}~#1 \hookleftarrow #2~\prettyreserved{with}~#3~\prettyreserved{in}}}
+\newcommand{\trywith}[2]{\ensuremath{\prettyreserved{try}~#1~\prettyreserved{with}~#2}}
+\newcommand{\functor}{\leadsto}
+\newcommand{\vor}{~\mid~}
+\newcommand{\default}[1]{\ensuremath{\tm{default(#1)}}}
+\newcommand{\etal}{\textit{et al.}\xspace}
+\newcommand{\etc}{\textit{etc.}}
+
+%% Languages
+\newcommand{\langC}{C\xspace}
+\newcommand{\vellvm}{VIR\xspace}
+\newcommand{\llvm}{LLVM\xspace}
+\newcommand{\vir}{VIR\xspace}
+\newcommand{\ir}{LLVM IR\xspace}
+\newcommand{\helix}{HELIX\xspace}
+
+%% ITree notations
+\newcommand{\itreen}{ITree\xspace}
+\newcommand{\itreesn}{ITrees\xspace}
+\newcommand{\ret}[1]{\ensuremath{\tm{ret}~#1}}
+\newcommand{\bind}{~\tm{;\!;}~}
+\newcommand{\itreef}[1]{\ensuremath{\tm{itree}~#1}}
+\newcommand{\itree}[2]{\ensuremath{\itreef{#1}~#2}}
+\newcommand{\translate}{\tm{tr}}
+\newcommand{\trigger}[1]{\ensuremath{\tm{trigger}~(#1)}}
+\newcommand{\triggernoparens}[1]{\ensuremath{\tm{trigger}~#1}}
+\newcommand{\polytrigger}[1]{\ensuremath{\tm{polytrigger}~#1}}
+\newcommand{\mrec}{\tm{mrec}}
+\newcommand{\tloop}{\tm{loop}}
+\newcommand{\titer}{\tm{iter}}
+\newcommand{\tmrec}{\tm{mrec}\xspace}
+\newcommand{\cloop}{\tm{loop}\xspace}
+\newcommand{\citer}{\tm{iter}\xspace}
+\newcommand{\interp}{\tm{interp}}
+\newcommand{\caseitree}{\tm{case\_}}
+
+
+%% AST
+%% Suffixed with "s" for "syntax"
+\newcommand{\calls}[2]{\ensuremath{\mathtt{call}~(#1,~#2)}}
+\newcommand{\allocas}[1]{\ensuremath{\mathtt{alloca}~(#1)}}
+\newcommand{\stores}[2]{\ensuremath{\mathtt{store}~(#1,~#2)}}
+\newcommand{\loads}[2]{\ensuremath{\mathtt{load}~(#1,~#2)}}
+\newcommand{\phis}[1]{\ensuremath{\mathtt{phi}~(#1)}}
+\newcommand{\geps}[3]{\ensuremath{\mathtt{GEP}}~(#1,~#2,~#3)}
+\newcommand{\rets}[1]{\ensuremath{\mathtt{return}}~(#1)}
+\newcommand{\branchs}[3]{\ensuremath{\mathtt{branch}}~(#1,~#2,~#3)}
+\newcommand{\nat}{\ensuremath{\mathcal N}}
+\newcommand{\iphi}{\nt{phi}}
+\newcommand{\expr}{\nt{exp}}
+\newcommand{\texpr}{\nt{exp}}
+\newcommand{\instr}{\nt{instr}}
+\newcommand{\term}{\nt{term}}
+\newcommand{\sphi}{\nt{phi}}
+\newcommand{\block}{\nt{block}}
+\newcommand{\id}{\nt{id}}
+\newcommand{\bid}{\nt{bid}}
+\newcommand{\cfg}{\nt{cfg}}
+\newcommand{\cfgs}{\nt{cfg}s}
+\newcommand{\mcfg}{\nt{mcfg}}
+\newcommand{\mcfgs}{\nt{mcfg}s}
+\newcommand{\isf}{\nt{i64}}
+\newcommand{\ibool}{\nt{i1}}
+\newcommand{\lid}[1]{\ensuremath{\mathtt{\%}#1}}
+\newcommand{\gid}[1]{\ensuremath{\mathtt{@}#1}}
+\newcommand{\arrayt}[1]{\ensuremath{\mathtt{[}#1\mathtt{]}}}
+\newcommand{\ptrt}[1]{\ensuremath{#1\mathtt{*}}}
+
+
+%% Domains of values
+% \newcommand{\id}{\nt{id}}
+\newcommand{\phin}{\ensuremath{\Phi\mathrm{-node}}\xspace}
+\newcommand{\phins}{\ensuremath{\Phi\mathrm{-nodes}}\xspace}
+% \newcommand{\bid}{\nt{bid}}
+\newcommand{\dtyp}{\nt{dtyp}}
+\newcommand{\void}{\emptyset}
+\newcommand{\unit}{\ensuremath{\mathtt{(\:)}}}
+\newcommand{\unitn}{\nt{unit}}  % SAZ: italics or tt ?
+\newcommand{\dvalueval}{v_d}
+\newcommand{\dvaluen}{defined value\xspace}
+\newcommand{\dvaluesn}{defined values\xspace}
+\newcommand{\dvalue}{\ensuremath{\mathcal V}}
+\newcommand{\uvalueval}{v_u}
+\newcommand{\uvaluen}{under-defined value\xspace}
+\newcommand{\uvaluesn}{under-defined values\xspace}
+\newcommand{\uvalue}{\ensuremath{\mathcal V_u}}
+\newcommand{\undefv}{\tm{undef}}
+\newcommand{\concretize}[1]{\ensuremath{\llbracket #1 \rrbracket_C}}
+\newcommand{\eqI}{\ensuremath{=_{64}}}
+\newcommand{\eqB}{\ensuremath{=_{1}}}
+
+%% Dvalues
+\newcommand{\dvisf}[1]{\ensuremath{#1\xspace}}
+\newcommand{\dvibool}[1]{\ensuremath{#1\xspace}}
+\newcommand{\dvaddr}[1]{\ensuremath{#1\xspace}}
+\newcommand{\dvpoison}{\tm{poison}\xspace}
+\newcommand{\dvnone}{\tm{none}\xspace}
+\newcommand{\dvarray}[1]{\tm{[}#1\tm{]}\xspace}
+\newcommand{\dtou}[1]{\uparrow#1}
+\newcommand{\utod}[1]{\downarrow#1}
+\newcommand{\vundef}{\tm{undef}\xspace}
+\newcommand{\uvundef}[1]{\ensuremath{\tm{undef}_{#1}}\xspace}
+%% Uvalues
+\newcommand{\uvpoison}{\uparrow\dvpoison}
+
+%%%%%%%%%% Domain of events %%%%%%%%%%
+%% Globals
+\newcommand{\globalE}{\mathcal{G}}
+\newcommand{\grd}[1]{\ensuremath{\tm{GRd}^{\dvalue}(#1)}}
+\newcommand{\gwr}[2]{\ensuremath{\tm{GWr}^{\unit}(#1,#2)}}
+
+%% Locals
+\newcommand{\localE}{\ensuremath{\mathcal{L}}}
+\newcommand{\lrd}[1]{\ensuremath{\tm{LRd}^{\uvalue}(#1)}}
+\newcommand{\lwr}[2]{\ensuremath{\tm{LWr}^{\unit}(#1,#2)}}
+
+%% Local stack
+\newcommand{\lstackE}{\ensuremath{\mathcal{S_L}}}
+\newcommand{\lpushE}{\ensuremath{\tm{LPush}^{\unit}}}
+\newcommand{\lpush}[1]{\ensuremath{\tm{LPush}^{\unit}(#1)}}
+\newcommand{\lpop}{\ensuremath{\tm{LPop}^{\unit}}}
+
+%% Call
+\newcommand{\callE}{\ensuremath{\mathcal{C}}}
+\newcommand{\call}[2]{\ensuremath{\tm{Call}^{\uvalue}(#1,#2)}}
+
+%% External Call
+\newcommand{\extcallE}{\ensuremath{\mathcal{C_E}}}
+\newcommand{\extcall}[2]{\tm{Call_E}^{\dvalue}(#1,#2)}
+
+%% Intrinsics
+\newcommand{\intrE}{\ensuremath{\mathcal{I}}}
+\newcommand{\intr}[2]{\ensuremath{\tm{Intrinsic}^{\dvalue}(#1,#2)}}
+\newcommand{\isint}[1]{\ensuremath{\mathit{is\_intrinsics}~(#1)}}
+
+%% Memory
+\newcommand{\memE}{\ensuremath{\mathcal{M}}}
+\newcommand{\mpush}{\ensuremath{\tm{MPush}^{\unit}}}
+\newcommand{\mpop}{\ensuremath{\tm{MPop}^{\unit}}}
+\newcommand{\alloca}[1]{\ensuremath{\tm{Alloca}^{\dvalue}(#1)}}
+\newcommand{\load}[2]{\ensuremath{\tm{Load}^{\uvalue}(#1,#2)}}
+\newcommand{\store}[2]{\ensuremath{\tm{Store}^{\unit}(#1,#2)}}
+\newcommand{\gep}[3]{\ensuremath{\tm{GEP}^{\dvalue}(#1,#2,#3)}}
+\newcommand{\handlegep}{\ensuremath{\tm{handle\_gep}}} 
+\newcommand{\sizeof}[1]{\ensuremath{\tm{sizeof}(#1)}}
+\newcommand{\ItoP}[1]{\ensuremath{\tm{ItoP}^{\dvalue}(#1)}}
+\newcommand{\PtoI}[1]{\ensuremath{\tm{PtoI}^{\dvalue}(#1)}}
+
+%% Memory model
+\newcommand{\sbyte}{\tm{SByte}\xspace}
+\newcommand{\sbytes}{\tm{SByte}s}
+\newcommand{\PtrFrag}{\tm{PtrFrag}\xspace}
+\newcommand{\SUndef}{\tm{SUndef}\xspace}
+
+%% Pick
+\newcommand{\pickE}{\ensuremath{\mathcal{P}}}
+%% \newcommand{\pick}[2]{\tm{Pick}^{\dvalue}(#1,#2)}
+\newcommand{\pick}[1]{\ensuremath{\tm{Pick}^{\dvalue}(#1)}}
+
+%% Undefined Behaviors
+\newcommand{\ubE}{\ensuremath{\mathcal{U}}}
+\newcommand{\ub}{\ensuremath{\tm{UB}^{\void}}}
+\newcommand{\raiseUB}{\tm{raiseUB}\xspace}
+
+%% Failure
+\newcommand{\failE}{\ensuremath{\mathcal{F}}}
+\newcommand{\throw}{\ensuremath{\tm{Throw}^{\void}}\xspace}
+\newcommand{\raiseerr}{\tm{fail}\xspace}
+
+%% Debugging
+\newcommand{\debugE}{\ensuremath{\mathcal{D}}}
+\newcommand{\debug}[1]{\ensuremath{\tm{Debug}^{\unit}(#1)}}
+
+%% Signatures of events used to denote pieces of llvm
+\newcommand{\expE}{\tm{ExpE}}
+\newcommand{\insE}{\tm{InsE}}
+\newcommand{\funE}{\tm{cfgE}}
+\newcommand{\topE}{\tm{virE}}
+
+%% Sum of (indexed) types
+\newcommand{\tor}{\ensuremath{+}}
+\newcommand{\itor}{\ensuremath{\oplus}}
+\newcommand{\iinr}[1]{\ensuremath{\tm{inr}~#1}}
+\newcommand{\iinl}[1]{\ensuremath{\tm{inl}~#1}}
+\newcommand{\where}[1]{\ensuremath{\tm{where}~#1}}
+\newcommand{\none}{\ensuremath{\tm{None}}}
+\newcommand{\some}[1]{\ensuremath{\tm{Some}~#1}}
+
+%%%%%%%%%% Denotation functions %%%%%%%%%%
+\newcommand{\sem}[1]{\ensuremath{\llbracket #1 \rrbracket}}
+\newcommand{\seme}[1]{\ensuremath{\llbracket #1 \rrbracket_{e}}}
+\newcommand{\semet}[2]{\ensuremath{\llbracket (#1,#2) \rrbracket_{e}}}
+\newcommand{\semi}[1]{\ensuremath{\llbracket #1 \rrbracket_i}}
+\newcommand{\semt}[1]{\ensuremath{\llbracket #1 \rrbracket_t}}
+\newcommand{\semb}[1]{\ensuremath{\llbracket #1 \rrbracket_b}}
+\newcommand{\sembs}[1]{\ensuremath{\llbracket  \mathit{#1}  \rrbracket_{\mathsf{bks}}}}
+\newcommand{\semphi}[2]{\ensuremath{\llbracket  \mathit{#2}  \rrbracket_{\Phi}^{#1}}}
+\newcommand{\semphis}[2]{\ensuremath{\llbracket \mathit{#2}  \rrbracket_{{\Phi}s}^{#1}}}
+\newcommand{\semcfg}[1]{\ensuremath{\llbracket \mathit{#1} \rrbracket_{\mathsf{cfg}}}}
+\newcommand{\semfun}[1]{\ensuremath{\llbracket \mathit{#1} \rrbracket_{\mathsf{fun}}}}
+\newcommand{\semmcfg}[1]{\ensuremath{\llbracket \mathit{#1} \rrbracket_{\mathsf{mcfg}}}}
+\newcommand{\semphiaux}[3]{\tm{resolve\_phi(#1,#2,#3)}}
+\newcommand{\semtop}[1]{\ensuremath{\llbracket #1 \rrbracket}_{\mathsf{\vir}}}
+\newcommand{\semvir}[1]{\ensuremath{\llbracket \mathit{#1} \rrbracket_\mathsf{VIR}}}
+\newcommand{\concretizeorpickn}{\tm{concretize\_or\_pick}}
+\newcommand{\concretizeorpick}[1]{\concretizeorpickn{}(#1)}
+
+% \newcommand{\semhop}[1]{\ensuremath{\llbracket #1 \rrbracket_{FHCOL}^{\sigma}}}
+
+%% Handlers
+\newcommand{\handle}[1]{\ensuremath{\tm{handle}_{#1}}}
+\newcommand{\handleintr}{\handle{\intrE}}
+
+%% Model
+\newcommand{\model}[1]{\ensuremath{\tm{model}_{#1}}}
+
+%% Refinements
+\newcommand{\eutttext}{\tm{eutt}\xspace}
+\newcommand{\eutt}{\approx}
+\newcommand{\eqit}{\cong}
+
+\newcommand{\urefine}[2]{\ensuremath{#1 \succeq #2}}
+\newcommand{\refineL}[3]{\ensuremath{\tm{refine\_L#1}(#2,#3)}}
+\newcommand{\refineRes}[1]{\ensuremath{\tm{refine\_res_{#1}}}}
+\newcommand{\refineUvalue}{\tm{refine\_uvalue}}
+\newcommand{\stateM}{\tm{state}}
+\newcommand{\propM}{\tm{prop}\xspace}
+\newcommand{\propT}[2]{\ensuremath{\tm{propT_{#1}~#2}}}
+\newcommand{\trivialrel}{\tm{TT}}
+
+
+\newcommand{\stateT}[2]{\ensuremath{\tm{stateT}_{#1}~#2}}
+
+%% Environments
+\newcommand{\envG}{\ensuremath{EnvG}}
+\newcommand{\envL}{\ensuremath{EnvL}}
+\newcommand{\mem}{\ensuremath{Mem}}
+\newcommand{\stackT}{\ensuremath{Stack}}
+
+%% Ocaml
+\newcommand{\step}{\texttt{step}}
+
+% Helix
+\newcommand{\fhcol}{FHCOL\xspace}
+\newcommand{\evalfhcol}[3]{\ensuremath{\tm{eval_{FHCOL}}~#1~#2~#3}\xspace}
+\newcommand{\semfhcol}[1]{\ensuremath{\llbracket #1 \rrbracket_{FHCOL}^{\sigma}}}
+\newcommand{\interpmem}{\tm{interp\_mem}}
+\newcommand{\pout}{\tm{out}\xspace}
+\newcommand{\interptoL}{\tm{interp\_vir_4}}
+\newcommand{\interpvir}{\tm{interp\_vir}}
+\newcommand{\oper}{\ensuremath{\tm{op}}}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main.tex"
+%%% End:

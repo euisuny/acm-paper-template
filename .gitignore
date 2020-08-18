@@ -1,0 +1,15 @@
+texdirectives.tex
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.dvi
+*.xcp
+main.pdf
+main.synctex.gz
+*-eps-converted-to.pdf
+.DS_Store
+*.synctex(busy)
